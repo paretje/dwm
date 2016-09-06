@@ -100,9 +100,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_F5,     spawn,          SHCMD("scrot --exec \"notify-send 'Screenshot saved' '\\$n'\" \"$HOME/cloud/screens/%Y-%m-%d_%H-%M-%S.png\"") },
 	{ MODKEY,                       XK_F6,     spawn,          SHCMD("if [ $(xbacklight | sed 's/\\..*$//') -ge 10 ] ; then xbacklight -dec 10 ; fi") },
 	{ MODKEY,                       XK_F7,     spawn,          SHCMD("xbacklight -inc 10") },
-	{ MODKEY,                       XK_F8,     spawn,          SHCMD("amixer set Master toggle") },
-	{ MODKEY,                       XK_F9,     spawn,          SHCMD("amixer set Master 10%-") },
-	{ MODKEY,                       XK_F10,    spawn,          SHCMD("amixer set Master 10%+") },
+	{ MODKEY,                       XK_F8,     spawn,          SHCMD("amixer set Master toggle ; pkill -u $USER -USR1 conky") },
+	{ MODKEY,                       XK_F9,     spawn,          SHCMD("amixer set Master 10%- ; pkill -u $USER -USR1 conky") },
+	{ MODKEY,                       XK_F10,    spawn,          SHCMD("amixer set Master 10%+ ; pkill -u $USER -USR1 conky") },
 };
 
 /* button definitions */
