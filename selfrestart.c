@@ -61,6 +61,8 @@ char *get_dwm_path(){
 void self_restart(const Arg *arg) {
     char *const argv[] = {get_dwm_path(), NULL};
 
+    fprintf(stderr, "dwm restart: %s\n", argv[0]);
+
     if(argv[0] == NULL){
         return;
     }
