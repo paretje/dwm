@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/select.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <X11/cursorfont.h>
@@ -1260,9 +1261,7 @@ propertynotify(XEvent *e)
 	Window trans;
 	XPropertyEvent *ev = &e->xproperty;
 
-	if ((ev->window == root) && (ev->atom == XA_WM_NAME))
-		updatestatus();
-	else if (ev->state == PropertyDelete)
+	if (ev->state == PropertyDelete)
 		return; /* ignore */
 	else if ((c = wintoclient(ev->window))) {
 		switch(ev->atom) {
@@ -1417,12 +1416,60 @@ restack(Monitor *m)
 void
 run(void)
 {
+	char *p;
+	char sbuf[sizeof stext];
+	fd_set rd;
+	int r, xfd;
+	unsigned int len, offset;
 	XEvent ev;
-	/* main event loop */
+	/* main event loop, also reads status text from stdin */
 	XSync(dpy, False);
-	while (running && !XNextEvent(dpy, &ev))
-		if (handler[ev.type])
-			handler[ev.type](&ev); /* call handler */
+	xfd = ConnectionNumber(dpy);
+	offset = 0;
+	len = sizeof stext - 1;
+	sbuf[len] = stext[len] = '\0'; /* 0-terminator is never touched */
+	while(running) {
+		FD_ZERO(&rd);
+		if(readin)
+			FD_SET(STDIN_FILENO, &rd);
+		FD_SET(xfd, &rd);
+		if(select(xfd + 1, &rd, NULL, NULL, NULL) == -1) {
+			if(errno == EINTR)
+				continue;
+			die("select failed\n");
+		}
+		if(FD_ISSET(STDIN_FILENO, &rd)) {
+			switch((r = read(STDIN_FILENO, sbuf + offset, len - offset))) {
+			case -1:
+				strncpy(stext, strerror(errno), len);
+				readin = False;
+				break;
+			case 0:
+				strncpy(stext, "EOF", 4);
+				readin = False;
+				break;
+			default:
+				for(p = sbuf + offset; r > 0; p++, r--, offset++)
+					if(*p == '\n' || *p == '\0') {
+						*p = '\0';
+						strncpy(stext, sbuf, len);
+						p += r - 1; /* p is sbuf + offset + r - 1 */
+						for(r = 0; *(p - r) && *(p - r) != '\n'; r++);
+						offset = r;
+						if(r)
+							memmove(sbuf, p - r + 1, r);
+						break;
+					}
+				break;
+			}
+			drawbars();
+		}
+		while(XPending(dpy)) {
+			XNextEvent(dpy, &ev);
+			if(handler[ev.type])
+				(handler[ev.type])(&ev); /* call handler */
+		}
+	}
 }
 
 void
@@ -1612,7 +1659,6 @@ setup(void)
 	scheme[SchemeSel] = drw_scm_create(drw, colors[SchemeSel], 3);
 	/* init bars */
 	updatebars();
-	updatestatus();
 	/* EWMH support per view */
 	XChangeProperty(dpy, root, netatom[NetSupported], XA_ATOM, 32,
 			PropModeReplace, (unsigned char *) netatom, NetLast);
