@@ -1,5 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
+#include "selfrestart.c"
+
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -92,6 +94,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+	{ MODKEY,                       XK_q,      self_restart,   {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} },
 	{ MODKEY|ShiftMask,             XK_q,      spawn,          SHCMD("dmenu-logout") },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("gmrun") },
