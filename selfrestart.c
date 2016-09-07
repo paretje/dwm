@@ -45,6 +45,10 @@ char *get_dwm_path(){
 
     path[r] = '\0';
 
+    if (r > 10 && strcmp(" (deleted)", path + r - 10) == 0) {
+        path[r - 10] = '\0';
+    }
+
     return path;
 }
 
