@@ -45,6 +45,10 @@ char *get_dwm_path(){
 
     path[r] = '\0';
 
+    if (r > 10 && strcmp(" (deleted)", path + r - 10) == 0) {
+        path[r - 10] = '\0';
+    }
+
     return path;
 }
 
@@ -56,6 +60,8 @@ char *get_dwm_path(){
  */
 void self_restart(const Arg *arg) {
     char *const argv[] = {get_dwm_path(), NULL};
+
+    fprintf(stderr, "dwm restart: %s\n", argv[0]);
 
     if(argv[0] == NULL){
         return;
