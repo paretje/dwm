@@ -108,8 +108,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_F6,     spawn,          SHCMD("if [ $(xbacklight | sed 's/\\..*$//') -ge 10 ] ; then xbacklight -dec 10 ; fi") },
 	{ MODKEY,                       XK_F7,     spawn,          SHCMD("xbacklight -inc 10") },
 	{ MODKEY,                       XK_F8,     spawn,          SHCMD("amixer set Master toggle ; pkill -u $USER -USR1 conky") },
-	{ MODKEY,                       XK_F9,     spawn,          SHCMD("amixer set Master 10%- ; pkill -u $USER -USR1 conky") },
-	{ MODKEY,                       XK_F10,    spawn,          SHCMD("amixer set Master 10%+ ; pkill -u $USER -USR1 conky") },
+	{ MODKEY,                       XK_F9,     spawn,          SHCMD("amixer set Master 5%- ; pkill -u $USER -USR1 conky") },
+	{ MODKEY,                       XK_F10,    spawn,          SHCMD("amixer set Master 5%+ ; pkill -u $USER -USR1 conky") },
 };
 
 /* button definitions */
