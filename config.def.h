@@ -62,7 +62,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-glob", "-modi", "run,ssh", "-ssh-client", "rtmux", "-show", "run", NULL };
-static const char *termcmd[]  = { "urxvtcd", "-e", "tmux-attach", NULL };
+static const char *termcmd[]  = { "urxvtcd", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
