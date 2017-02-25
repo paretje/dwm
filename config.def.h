@@ -63,6 +63,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-glob", "-modi", "run,ssh", "-ssh-client", "rtmux", "-show", "run", NULL };
 static const char *termcmd[]  = { "urxvtcd", NULL };
+static const char *prtscrcmd[]  = { "sh", "-c", "scrot --exec \"notify-send 'Screenshot saved' '\\$n'\" \"$HOME/cloud/screens/%Y-%m-%d_%H-%M-%S.png\"", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -104,12 +105,13 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("gmrun") },
 	{ MODKEY|ShiftMask,             XK_z,      spawn,          SHCMD("xscreensaver-command --lock") },
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("dmenu-xrandr") },
-	{ MODKEY,                       XK_F5,     spawn,          SHCMD("scrot --exec \"notify-send 'Screenshot saved' '\\$n'\" \"$HOME/cloud/screens/%Y-%m-%d_%H-%M-%S.png\"") },
+	{ MODKEY,                       XK_F5,     spawn,          {.v = prtscrcmd } },
 	{ MODKEY,                       XK_F6,     spawn,          SHCMD("if [ $(xbacklight | sed 's/\\..*$//') -ge 10 ] ; then xbacklight -dec 10 ; fi") },
 	{ MODKEY,                       XK_F7,     spawn,          SHCMD("xbacklight -inc 10") },
 	{ MODKEY,                       XK_F8,     spawn,          SHCMD("amixer set Master toggle") },
 	{ MODKEY,                       XK_F9,     spawn,          SHCMD("amixer set Master 5%-") },
 	{ MODKEY,                       XK_F10,    spawn,          SHCMD("amixer set Master 5%+") },
+	{ 0,                            XK_Print,  spawn,          {.v = prtscrcmd } },
 };
 
 /* button definitions */
