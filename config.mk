@@ -30,6 +30,18 @@ CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=2 -DVERSION=\"${VER
 CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os ${INCS} ${CPPFLAGS}
 LDFLAGS  = -s ${LIBS}
 
+# set proper F-key configuration
+ifeq ("${HOST}", "kevin-laptop")
+FKEYS=1
+endif
+ifeq ("${HOST}", "parsley")
+FKEYS=2
+endif
+
+ifdef FKEYS
+CFLAGS += -DFKEYS=${FKEYS}
+endif
+
 # Solaris
 #CFLAGS = -fast ${INCS} -DVERSION=\"${VERSION}\"
 #LDFLAGS = ${LIBS}
