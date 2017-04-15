@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 
+#include <X11/XF86keysym.h>
 #include "selfrestart.c"
 
 /* appearance */
@@ -63,7 +64,13 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-glob", "-modi", "run,ssh", "-ssh-client", "rtmux", "-show", "run", NULL };
 static const char *termcmd[]  = { "urxvtcd", NULL };
-static const char *prtscrcmd[]  = { "sh", "-c", "scrot --exec \"notify-send 'Screenshot saved' '\\$n'\" \"$HOME/cloud/screens/%Y-%m-%d_%H-%M-%S.png\"", NULL };
+static const char *prtscrcmd[]  = { "sh", "-c", "scrot --exec \"notify-send 'Screenshot saved' '\\$n'\" \"$HOME/cloud/screens/%Y-%m-%d_%H%M%S.png\"", NULL };
+static const char *brightdeccmd[]  = { "sh", "-c", "scrot --exec \"if [ $(xbacklight | sed 's/\\..*$//') -ge 10 ] ; then xbacklight -dec 10 ; fi", NULL };
+static const char *brightinccmd[] = { "xbacklight", "-inc", "10", NULL };
+static const char *volmutecmd[] = { "amixer", "-q", "set", "Master", "toggle", NULL };
+static const char *voldeccmd[] = { "amixer", "-q", "set", "Master", "5%-", NULL };
+static const char *volinccmd[] = { "amixer", "-q", "set", "Master", "5%+", NULL };
+
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -105,13 +112,28 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("gmrun") },
 	{ MODKEY|ShiftMask,             XK_z,      spawn,          SHCMD("xscreensaver-command --lock") },
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("dmenu-xrandr") },
+#if FKEYS == 1
 	{ MODKEY,                       XK_F5,     spawn,          {.v = prtscrcmd } },
-	{ MODKEY,                       XK_F6,     spawn,          SHCMD("if [ $(xbacklight | sed 's/\\..*$//') -ge 10 ] ; then xbacklight -dec 10 ; fi") },
-	{ MODKEY,                       XK_F7,     spawn,          SHCMD("xbacklight -inc 10") },
-	{ MODKEY,                       XK_F8,     spawn,          SHCMD("amixer set Master toggle") },
-	{ MODKEY,                       XK_F9,     spawn,          SHCMD("amixer set Master 5%-") },
-	{ MODKEY,                       XK_F10,    spawn,          SHCMD("amixer set Master 5%+") },
-	{ 0,                            XK_Print,  spawn,          {.v = prtscrcmd } },
+	{ MODKEY,                       XK_F6,     spawn,          {.v = brightdeccmd } },
+	{ MODKEY,                       XK_F7,     spawn,          {.v = brightinccmd } },
+	{ MODKEY,                       XK_F8,     spawn,          {.v = volmutecmd } },
+	{ MODKEY,                       XK_F9,     spawn,          {.v = voldeccmd } },
+	{ MODKEY,                       XK_F10,    spawn,          {.v = volinccmd } },
+#elif FKEYS == 2
+	{ MODKEY,                       XK_F5,     spawn,          {.v = brightdeccmd } },
+	{ MODKEY,                       XK_F6,     spawn,          {.v = brightinccmd } },
+	{ MODKEY,                       XK_F10,    spawn,          {.v = volmutecmd } },
+	{ MODKEY,                       XK_F11,    spawn,          {.v = voldeccmd } },
+	{ MODKEY,                       XK_F12,    spawn,          {.v = volinccmd } },
+#endif
+	{ 0, XK_Print,                  spawn,     {.v = prtscrcmd } },
+	{ 0, XF86XK_KbdBrightnessDown,  spawn,     {.v = brightdeccmd } },
+	{ 0, XF86XK_KbdBrightnessUp,    spawn,     {.v = brightinccmd } },
+	{ 0, XF86XK_AudioRaiseVolume,   spawn,     {.v = volinccmd } },
+	{ 0, XF86XK_AudioMute,          spawn,     {.v = volmutecmd } },
+	{ 0, XF86XK_AudioLowerVolume,   spawn,     {.v = voldeccmd } },
+	{ 0, XF86XK_AudioRaiseVolume,   spawn,     {.v = volinccmd } },
+
 };
 
 /* button definitions */
