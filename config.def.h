@@ -110,9 +110,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY,                       XK_q,      self_restart,   {0} },
+	{ MODKEY|ShiftMask,             XK_q,      self_restart,   {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} },
-	{ MODKEY|ShiftMask,             XK_q,      spawn,          SHCMD("dmenu-logout") },
+	{ MODKEY,                       XK_q,      spawn,          SHCMD("dmenu-logout") },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("gmrun") },
 	{ MODKEY|ShiftMask,             XK_z,      spawn,          SHCMD("xscreensaver-command --lock") },
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("dmenu-xrandr") },
