@@ -31,11 +31,14 @@ CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os ${INCS} ${C
 LDFLAGS  = -s ${LIBS}
 
 # set proper F-key configuration
-ifeq ("${HOST}", "kevin-laptop")
+ifeq ("${HOST}", "kevin-chromebook")
 FKEYS=1
 endif
 ifeq ("${HOST}", "parsley")
 FKEYS=2
+endif
+ifneq ("",$(filter "${HOST}", "kevin-laptop" "chervil"))
+FKEYS=3
 endif
 
 ifdef FKEYS
