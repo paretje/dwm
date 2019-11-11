@@ -131,6 +131,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_F12,    spawn,          {.v = volinccmd } },
 #elif FKEYS == 3
 	{ MODKEY,                       XK_F12,    spawn,          {.v = prtscrcmd } },
+	{ MODKEY,                       XK_F1,     spawn,          {.v = volmutecmd } },
+	{ MODKEY,                       XK_F2,     spawn,          {.v = voldeccmd } },
+	{ MODKEY,                       XK_F3,     spawn,          {.v = volinccmd } },
 #endif
 	{ 0, XK_Print,                  spawn,     {.v = prtscrcmd } },
 	{ 0, XF86XK_KbdBrightnessDown,  spawn,     {.v = brightdeccmd } },
