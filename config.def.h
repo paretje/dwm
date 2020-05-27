@@ -72,6 +72,7 @@ static const char *brightinccmd[] = { "brightnessctl", "set", "5%+", NULL };
 static const char *volmutecmd[] = { "amixer", "-q", "set", "Master", "toggle", NULL };
 static const char *voldeccmd[] = { "amixer", "-q", "set", "Master", "5%-", NULL };
 static const char *volinccmd[] = { "amixer", "-q", "set", "Master", "5%+", NULL };
+static const char *volmicmutecmd[] = { "amixer", "-q", "set", "Capture", "toggle", NULL };
 
 
 static Key keys[] = {
@@ -144,6 +145,7 @@ static Key keys[] = {
 	{ 0, XF86XK_AudioMute,          spawn,     {.v = volmutecmd } },
 	{ 0, XF86XK_AudioLowerVolume,   spawn,     {.v = voldeccmd } },
 	{ 0, XF86XK_AudioRaiseVolume,   spawn,     {.v = volinccmd } },
+	{ 0, XF86XK_AudioMicMute,       spawn,     {.v = volmicmutecmd } },
 
 };
 
