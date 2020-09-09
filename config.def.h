@@ -73,6 +73,8 @@ static const char *volmutecmd[] = { "amixer", "-q", "set", "Master", "toggle", N
 static const char *voldeccmd[] = { "amixer", "-q", "set", "Master", "5%-", NULL };
 static const char *volinccmd[] = { "amixer", "-q", "set", "Master", "5%+", NULL };
 static const char *volmicmutecmd[] = { "amixer", "-q", "set", "Capture", "toggle", NULL };
+static const char *zoomcmd[] = { "xrandr", "--output", "eDP1", "--scale", "0.875x0.875", NULL };
+static const char *resetzoomcmd[] = { "xrandr", "--output", "eDP1", "--scale", "1x1", NULL };
 
 
 static Key keys[] = {
@@ -117,26 +119,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("gmrun") },
 	{ MODKEY|ShiftMask,             XK_z,      spawn,          SHCMD("xscreensaver-command --lock") },
 	{ MODKEY,                       XK_x,      spawn,          SHCMD("dmenu-xrandr") },
-#if FKEYS == 1
-	{ MODKEY,                       XK_F5,     spawn,          {.v = prtscrcmd } },
-	{ MODKEY,                       XK_F6,     spawn,          {.v = brightdeccmd } },
-	{ MODKEY,                       XK_F7,     spawn,          {.v = brightinccmd } },
-	{ MODKEY,                       XK_F8,     spawn,          {.v = volmutecmd } },
-	{ MODKEY,                       XK_F9,     spawn,          {.v = voldeccmd } },
-	{ MODKEY,                       XK_F10,    spawn,          {.v = volinccmd } },
-#elif FKEYS == 2
-	{ MODKEY,                       XK_F5,     spawn,          {.v = brightdeccmd } },
-	{ MODKEY,                       XK_F6,     spawn,          {.v = brightinccmd } },
-	{ MODKEY,                       XK_F10,    spawn,          {.v = volmutecmd } },
-	{ MODKEY,                       XK_F11,    spawn,          {.v = voldeccmd } },
-	{ MODKEY,                       XK_F12,    spawn,          {.v = volinccmd } },
-#elif FKEYS == 3
 	{ MODKEY,                       XK_F12,    spawn,          {.v = prtscrcmd } },
 	{ MODKEY,                       XK_F1,     spawn,          {.v = volmutecmd } },
 	{ MODKEY,                       XK_F2,     spawn,          {.v = voldeccmd } },
 	{ MODKEY,                       XK_F3,     spawn,          {.v = volinccmd } },
-#endif
-	{ 0, XK_Print,                  spawn,     {.v = prtscrcmd } },
 	{ 0, XF86XK_KbdBrightnessDown,  spawn,     {.v = brightdeccmd } },
 	{ 0, XF86XK_KbdBrightnessUp,    spawn,     {.v = brightinccmd } },
 	{ 0, XF86XK_MonBrightnessDown,  spawn,     {.v = brightdeccmd } },
@@ -146,6 +132,8 @@ static Key keys[] = {
 	{ 0, XF86XK_AudioLowerVolume,   spawn,     {.v = voldeccmd } },
 	{ 0, XF86XK_AudioRaiseVolume,   spawn,     {.v = volinccmd } },
 	{ 0, XF86XK_AudioMicMute,       spawn,     {.v = volmicmutecmd } },
+	{ MODKEY|ShiftMask,             XK_equal,  spawn,          {.v = zoomcmd } },
+	{ MODKEY,                       XK_equal,  spawn,          {.v = resetzoomcmd } },
 
 };
 

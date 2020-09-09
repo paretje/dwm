@@ -30,21 +30,6 @@ CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\
 CFLAGS   = -std=c99 -pedantic -Wall -Wno-deprecated-declarations -Os ${INCS} ${CPPFLAGS}
 LDFLAGS  = ${LIBS}
 
-# set proper F-key configuration
-ifeq ("${HOST}", "kevin-chromebook")
-FKEYS=1
-endif
-ifeq ("${HOST}", "parsley")
-FKEYS=2
-endif
-ifneq ("",$(filter "${HOST}", "kevin-laptop" "chervil"))
-FKEYS=3
-endif
-
-ifdef FKEYS
-CFLAGS += -DFKEYS=${FKEYS}
-endif
-
 # Solaris
 #CFLAGS = -fast ${INCS} -DVERSION=\"${VERSION}\"
 #LDFLAGS = ${LIBS}
