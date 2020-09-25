@@ -65,7 +65,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-glob", "-modi", "run,ssh", "-ssh-client", "rtmux", "-show", "run", NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "x-terminal-emulator", NULL };
 static const char *prtscrcmd[]  = { "sh", "-c", "scrot --exec \"notify-send 'Screenshot saved' '\\$n'\" \"$HOME/cloud/screens/%Y-%m-%d_%H%M%S.png\"", NULL };
 static const char *brightdeccmd[]  = { "brightnessctl", "set", "5%-", NULL };
 static const char *brightinccmd[] = { "brightnessctl", "set", "5%+", NULL };
